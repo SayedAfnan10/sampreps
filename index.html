@@ -1,0 +1,1612 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <meta name="theme-color" content="#101d34">
+
+    <title>SampReps — Prepare Smart</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --ink: #14233c;
+            --muted: #63728a;
+            --blue: #356cf6;
+            --mint: #c8f5e2;
+            --paper: #f5f7fb;
+            --line: #e3e9f2;
+            --white: #fff;
+            --navy: #101d34;
+            --shadow: 0 18px 50px #1b2c4a12;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .top {
+            height: 76px;
+            padding: 0 max(calc((100vw - 1160px) / 2), 24px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .brand {
+            font: 800 21px Manrope, sans-serif;
+            letter-spacing: 0.09em;
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .brand span {
+            color: var(--blue);
+        }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav button {
+            border: 0;
+            background: none;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .nav button:hover,
+        .nav button.active {
+            color: var(--blue);
+        }
+
+        .wrap {
+            max-width: 1160px;
+            margin: auto;
+            padding: 42px 24px 80px;
+        }
+
+        .hero {
+            background: var(--navy);
+            color: #fff;
+            border-radius: 24px;
+            padding: 52px 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 275px;
+        }
+
+        .hero:after {
+            content: '';
+            position: absolute;
+            width: 310px;
+            height: 310px;
+            border-radius: 50%;
+            right: 9%;
+            top: -120px;
+            border: 1px solid #ffffff22;
+            box-shadow:
+                0 0 0 36px #ffffff08,
+                0 0 0 72px #ffffff05;
+        }
+
+        .eyebrow {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #9fb9ff;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            font: 800 clamp(32px, 4.3vw, 52px) / 1.1 Manrope;
+            margin: 16px 0;
+        }
+
+        .hero p {
+            max-width: 590px;
+            color: #c3ccda;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .hero-tag {
+            align-self: flex-end;
+            background: #ffffff12;
+            border: 1px solid #ffffff22;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #cfe0ff;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin: 40px 0 18px;
+        }
+
+        .section-head h2 {
+            font: 700 23px Manrope;
+            margin: 0 0 5px;
+        }
+
+        .section-head p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .formrow {
+            margin: 30px 0 10px;
+            max-width: 410px;
+        }
+
+        .formrow label {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 9px;
+        }
+
+        .formrow input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: white;
+            outline: none;
+        }
+
+        .formrow input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px #356cf619;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .subject {
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            background: #fff;
+            padding: 19px;
+            text-align: left;
+            min-height: 144px;
+            transition: 0.2s;
+            box-shadow: 0 3px 10px #172a4705;
+        }
+
+        .subject:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: #b9caff;
+        }
+
+        .subject.selected {
+            border: 2px solid var(--blue);
+            background: #f6f8ff;
+            padding: 18px;
+        }
+
+        .icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #edf2ff;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .subject strong {
+            display: block;
+            font: 700 15px Manrope;
+        }
+
+        .subject small {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+            margin-top: 6px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 22px;
+        }
+
+        .primary,
+        .secondary {
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-weight: 700;
+        }
+
+        .primary {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 7px 18px #356cf633;
+        }
+
+        .primary:hover {
+            background: #2459df;
+            transform: translateY(-1px);
+        }
+
+        .primary:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secondary {
+            background: #eef2f8;
+            color: var(--ink);
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 19px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 26px 0;
+        }
+
+        .difficulty {
+            background: white;
+            border: 1px solid var(--line);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .difficulty:hover {
+            transform: translateY(-3px);
+            border-color: #9fb8ff;
+        }
+
+        .difficulty.selected {
+            border: 2px solid var(--blue);
+            background: #f7f9ff;
+            padding: 24px;
+        }
+
+        .difficulty .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #60c39a;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .difficulty:nth-child(2) .dot {
+            background: #f2b84b;
+        }
+
+        .difficulty:nth-child(3) .dot {
+            background: #f17b75;
+        }
+
+        .difficulty h3 {
+            margin: 0 0 12px;
+            font: 700 19px Manrope;
+        }
+
+        .difficulty p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .barline {
+            height: 7px;
+            border-radius: 99px;
+            background: #e8edf5;
+            overflow: hidden;
+            margin: 12px 0 26px;
+        }
+
+        .barline span {
+            display: block;
+            height: 100%;
+            background: var(--blue);
+            transition: width 0.3s;
+            border-radius: 99px;
+        }
+
+        .qmeta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .question {
+            font: 700 23px / 1.4 Manrope;
+            margin: 12px 0 23px;
+        }
+
+        .options {
+            display: grid;
+            gap: 11px;
+        }
+
+        .option {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: white;
+            text-align: left;
+            color: var(--ink);
+            line-height: 1.45;
+        }
+
+        .option:hover {
+            border-color: #9fb8ff;
+            background: #fafbff;
+        }
+
+        .option.selected {
+            border: 2px solid var(--blue);
+            background: #f5f8ff;
+            padding: 13px 15px;
+        }
+
+        .option.correct {
+            border-color: #42b982;
+            background: #effbf5;
+        }
+
+        .option.wrong {
+            border-color: #e68080;
+            background: #fff5f4;
+        }
+
+        .letter {
+            display: inline-grid;
+            place-items: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: #eef2f8;
+            margin-right: 10px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .explain {
+            margin-top: 18px;
+            background: #f1f8f5;
+            border: 1px solid #d5eee1;
+            border-radius: 12px;
+            padding: 16px;
+            line-height: 1.6;
+        }
+
+        .explain strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .qactions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 23px;
+        }
+
+        .result-hero {
+            background: var(--navy);
+            color: white;
+            border-radius: 22px;
+            padding: 33px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .result-hero h1 {
+            font: 800 32px Manrope;
+            margin: 8px 0;
+        }
+
+        .result-hero p {
+            color: #c3ccda;
+            margin: 0;
+        }
+
+        .score {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            border: 8px solid #607ff5;
+            display: grid;
+            place-content: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .score strong {
+            font: 800 29px Manrope;
+        }
+
+        .score small {
+            color: #cfdaef;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 17px 0 34px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            padding: 16px;
+        }
+
+        .stat small {
+            color: var(--muted);
+            display: block;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 6px;
+            font: 700 15px Manrope;
+        }
+
+        .review {
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin: 12px 0;
+            overflow: hidden;
+        }
+
+        .review-head {
+            padding: 17px 19px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .badge {
+            white-space: nowrap;
+            color: #198454;
+            background: #e8f8ef;
+            border-radius: 20px;
+            padding: 5px 9px;
+            font-size: 12px;
+            height: max-content;
+        }
+
+        .badge.bad {
+            color: #b64040;
+            background: #fff0ef;
+        }
+
+        .review-body {
+            padding: 0 19px 18px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .review-body b {
+            color: var(--ink);
+        }
+
+        .makers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin: 28px 0;
+        }
+
+        .maker {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            padding: 18px;
+        }
+
+        .photo {
+            height: 190px;
+            border-radius: 12px;
+            background: linear-gradient(140deg, #eef2fb, #f9fafc);
+            border: 1px dashed #b9c5d8;
+            display: grid;
+            place-items: center;
+            color: #71819a;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+        }
+
+        .maker h3 {
+            font: 700 19px Manrope;
+            margin: 18px 0 7px;
+        }
+
+        .maker p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .foot {
+            border-top: 1px solid var(--line);
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .notice {
+            color: #c44848;
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 18px;
+        }
+
+        .screen {
+            animation: enter 0.24s ease;
+        }
+
+        @keyframes enter {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                padding: 38px 32px;
+            }
+
+            .hero-tag {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .top {
+                height: 64px;
+                padding: 0 17px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .nav {
+                gap: 10px;
+            }
+
+            .nav button {
+                font-size: 12px;
+            }
+
+            .wrap {
+                padding: 24px 16px 55px;
+            }
+
+            .hero {
+                padding: 31px 23px;
+                min-height: 0;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .section-head {
+                align-items: start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .grid {
+                gap: 10px;
+            }
+
+            .subject {
+                padding: 14px;
+                min-height: 145px;
+            }
+
+            .subject.selected {
+                padding: 13px;
+            }
+
+            .difficulty-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .difficulty {
+                padding: 20px;
+            }
+
+            .difficulty.selected {
+                padding: 19px;
+            }
+
+            .panel {
+                padding: 19px;
+            }
+
+            .question {
+                font-size: 20px;
+            }
+
+            .result-hero {
+                align-items: flex-start;
+                padding: 24px;
+                flex-direction: column-reverse;
+            }
+
+            .result-hero h1 {
+                font-size: 27px;
+            }
+
+            .score {
+                width: 100px;
+                height: 100px;
+                border-width: 6px;
+            }
+
+            .makers {
+                grid-template-columns: 1fr;
+            }
+
+            .photo {
+                height: 220px;
+            }
+
+            .review-head {
+                padding: 14px;
+                font-size: 14px;
+            }
+
+            .review-body {
+                padding: 0 14px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top">
+        <div class="brand" onclick="goHome()">
+            SAMP<span>REPS</span>
+        </div>
+
+        <nav class="nav">
+            <button id="homeNav" onclick="goHome()">
+                Practice
+            </button>
+
+            <button id="makersNav" onclick="showMakers()">
+                The Makers
+            </button>
+        </nav>
+    </header>
+
+    <main id="app" class="wrap"></main>
+
+    <footer class="foot">
+        SAMPREPS · Smart Interview Preparation for Computer Science Students
+    </footer>
+
+    <script src="questions.js"></script>
+
+    <script>
+        const subjects = [
+            [
+                'Python',
+                '🐍',
+                'Core language concepts, syntax, and Python behavior.'
+            ],
+            [
+                'Java',
+                '☕',
+                'Object-oriented programming and the Java platform.'
+            ],
+            [
+                'SQL',
+                '⌘',
+                'Querying and shaping relational data.'
+            ],
+            [
+                'Data Structures',
+                '⌘',
+                'Organizing data for efficient operations.'
+            ],
+            [
+                'Operating Systems',
+                '⚙',
+                'Processes, memory, and system fundamentals.'
+            ],
+            [
+                'Computer Networks',
+                '⌁',
+                'Protocols and communication across networks.'
+            ],
+            [
+                'DBMS',
+                '▤',
+                'Data modeling, transactions, and database design.'
+            ]
+        ];
+
+        let state = {
+            page: 'home',
+            name: '',
+            subject: '',
+            difficulty: '',
+            questions: [],
+            answers: [],
+            revealed: [],
+            index: 0,
+            submitted: false
+        };
+
+        const app = document.getElementById('app');
+
+        function goHome() {
+            state.page = 'home';
+            state.subject = '';
+            state.difficulty = '';
+            state.answers = [];
+
+            render();
+        }
+
+        function showMakers() {
+            state.page = 'makers';
+
+            render();
+        }
+
+        function render() {
+            document
+                .getElementById('homeNav')
+                .classList.toggle('active', state.page === 'home');
+
+            document
+                .getElementById('makersNav')
+                .classList.toggle('active', state.page === 'makers');
+
+            app.className = 'wrap screen';
+
+            if (state.page === 'home') {
+                home();
+            }
+
+            if (state.page === 'difficulty') {
+                difficulty();
+            }
+
+            if (state.page === 'interview') {
+                interview();
+            }
+
+            if (state.page === 'result') {
+                result();
+            }
+
+            if (state.page === 'makers') {
+                makers();
+            }
+        }
+
+        function home() {
+            app.innerHTML = `
+                <section class="hero">
+                    <div>
+                        <div class="eyebrow">
+                            Smart Interview Preparation for CS Students
+                        </div>
+
+                        <h1>
+                            Get Ready for Your<br>
+                            Technical Interview
+                        </h1>
+
+                        <p>
+                            Test your Computer Science knowledge with carefully
+                            designed MCQs, practice at your preferred difficulty
+                            level, and understand every answer with clear
+                            explanations.
+                        </p>
+                    </div>
+
+                    <div class="hero-tag">
+                        ✦ &nbsp; Prepare Smart. Practice Better.
+                    </div>
+                </section>
+
+                <div class="formrow">
+                    <label for="name">
+                        Enter Your Name
+                    </label>
+
+                    <input
+                        id="name"
+                        placeholder="Enter your full name"
+                        value="${esc(state.name)}"
+                        autocomplete="name"
+                    >
+                </div>
+
+                <div class="section-head">
+                    <div>
+                        <h2>Choose Your Subject</h2>
+
+                        <p>
+                            Select one subject to shape your practice interview.
+                        </p>
+                    </div>
+                </div>
+
+                <section class="grid">
+                    ${subjects
+                        .map(
+                            ([n, i, d]) => `
+                                <button
+                                    class="subject ${
+                                        state.subject === n ? 'selected' : ''
+                                    }"
+                                    onclick="pickSubject('${n}')"
+                                >
+                                    <div class="icon">
+                                        ${i}
+                                    </div>
+
+                                    <strong>
+                                        ${n}
+                                    </strong>
+
+                                    <small>
+                                        ${d}
+                                    </small>
+                                </button>
+                            `
+                        )
+                        .join('')}
+                </section>
+
+                <div class="notice" id="notice"></div>
+
+                <div class="actions">
+                    <button
+                        class="primary"
+                        onclick="continueHome()"
+                    >
+                        Continue
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function pickSubject(s) {
+            state.subject = s;
+
+            document
+                .querySelectorAll('.subject')
+                .forEach(x =>
+                    x.classList.toggle(
+                        'selected',
+                        x.querySelector('strong').textContent === s
+                    )
+                );
+        }
+
+        function continueHome() {
+            state.name = document
+                .getElementById('name')
+                .value
+                .trim();
+
+            if (!state.name || !state.subject) {
+                document.getElementById('notice').textContent =
+                    'Enter your name and choose a subject to continue.';
+
+                return;
+            }
+
+            state.page = 'difficulty';
+
+            render();
+        }
+
+        function difficulty() {
+            app.innerHTML = `
+                <div class="eyebrow">
+                    Your Practice Setup
+                </div>
+
+                <div class="section-head">
+                    <div>
+                        <h2>
+                            Choose Your Difficulty Level
+                        </h2>
+
+                        <p>
+                            ${esc(state.subject)} interview ·
+                            Choose the level that suits you.
+                        </p>
+                    </div>
+
+                    <button
+                        class="secondary"
+                        onclick="goHome()"
+                    >
+                        ← Back
+                    </button>
+                </div>
+
+                <div class="difficulty-grid">
+                    ${[
+                        [
+                            'Easy',
+                            'Basic interview questions designed to test fundamental concepts.'
+                        ],
+                        [
+                            'Medium',
+                            'Intermediate questions that require better conceptual understanding.'
+                        ],
+                        [
+                            'Hard',
+                            'Advanced interview-oriented questions requiring deeper technical knowledge and reasoning.'
+                        ]
+                    ]
+                        .map(
+                            ([n, d]) => `
+                                <button
+                                    class="difficulty ${
+                                        state.difficulty === n
+                                            ? 'selected'
+                                            : ''
+                                    }"
+                                    onclick="pickDifficulty('${n}')"
+                                >
+                                    <h3>
+                                        <i class="dot"></i>
+                                        ${n}
+                                    </h3>
+
+                                    <p>
+                                        ${d}
+                                    </p>
+                                </button>
+                            `
+                        )
+                        .join('')}
+                </div>
+
+                <div class="notice" id="notice"></div>
+
+                <div class="actions">
+                    <button
+                        class="primary"
+                        onclick="startInterview()"
+                    >
+                        Start Interview →
+                    </button>
+                </div>
+            `;
+        }
+
+        function pickDifficulty(d) {
+            state.difficulty = d;
+
+            document
+                .querySelectorAll('.difficulty')
+                .forEach(x =>
+                    x.classList.toggle(
+                        'selected',
+                        x.querySelector('h3').textContent.trim().slice(1) === d
+                    )
+                );
+        }
+
+        function startInterview() {
+            if (!state.difficulty) {
+                document.getElementById('notice').textContent =
+                    'Choose a difficulty level to start.';
+
+                return;
+            }
+
+            let bank =
+                QUESTION_BANK[state.subject]?.[state.difficulty] || [];
+
+            state.questions = shuffle([...bank]).slice(0, 10);
+
+            if (state.questions.length < 10) {
+                document.getElementById('notice').textContent =
+                    'Question set unavailable. Please choose another subject.';
+
+                return;
+            }
+
+            state.answers = Array(10).fill(null);
+            state.revealed = Array(10).fill(false);
+            state.index = 0;
+            state.page = 'interview';
+
+            render();
+        }
+
+        function interview() {
+            let i = state.index;
+            let q = state.questions[i];
+            let answered = state.answers[i] !== null;
+            let pc = Math.round((i + 1) * 10);
+
+            app.innerHTML = `
+                <div class="qmeta">
+                    <span>
+                        ${esc(state.subject)} · ${state.difficulty}
+                    </span>
+
+                    <span>
+                        Question ${i + 1} / 10
+                    </span>
+                </div>
+
+                <div
+                    class="barline"
+                    aria-label="${pc}% complete"
+                >
+                    <span style="width:${pc}%"></span>
+                </div>
+
+                <div class="panel">
+
+                    <div class="eyebrow">
+                        Question ${i + 1} of 10
+
+                        <span style="float:right">
+                            ${pc}% Complete
+                        </span>
+                    </div>
+
+                    <h2 class="question">
+                        ${esc(q.question)}
+                    </h2>
+
+                    <div class="options">
+                        ${q.options
+                            .map(
+                                (o, j) => `
+                                    <button
+                                        class="option
+                                            ${
+                                                state.answers[i] === j
+                                                    ? 'selected'
+                                                    : ''
+                                            }
+                                            ${
+                                                state.revealed[i]
+                                                    ? j === q.correctAnswer
+                                                        ? 'correct'
+                                                        : state.answers[i] === j
+                                                        ? 'wrong'
+                                                        : ''
+                                                    : ''
+                                            }"
+                                        onclick="chooseAnswer(${j})"
+                                        ${state.submitted ? 'disabled' : ''}
+                                    >
+                                        <span class="letter">
+                                            ${'ABCD'[j]}
+                                        </span>
+
+                                        ${esc(o)}
+                                    </button>
+                                `
+                            )
+                            .join('')}
+                    </div>
+
+                    ${
+                        state.revealed[i]
+                            ? `
+                                <div class="explain">
+                                    <strong>
+                                        ${
+                                            state.answers[i] ===
+                                            q.correctAnswer
+                                                ? 'Correct answer'
+                                                : 'Answer'
+                                        }:
+
+                                        ${'ABCD'[q.correctAnswer]}.
+                                        ${esc(
+                                            q.options[q.correctAnswer]
+                                        )}
+                                    </strong>
+
+                                    ${esc(q.explanation)}
+                                </div>
+                            `
+                            : ''
+                    }
+
+                    <div class="qactions">
+
+                        <button
+                            class="secondary"
+                            onclick="prevQuestion()"
+                            ${i === 0 ? 'disabled' : ''}
+                        >
+                            ← Previous
+                        </button>
+
+                        <button
+                            class="primary"
+                            onclick="nextQuestion()"
+                        >
+                            ${
+                                state.revealed[i]
+                                    ? i === 9
+                                        ? 'Submit Interview'
+                                        : 'Continue →'
+                                    : i === 9
+                                    ? 'Review Answer'
+                                    : 'Next →'
+                            }
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="notice"
+                        id="notice"
+                    ></div>
+
+                </div>
+            `;
+        }
+
+        function chooseAnswer(j) {
+            if (
+                state.submitted ||
+                state.revealed[state.index]
+            ) {
+                return;
+            }
+
+            state.answers[state.index] = j;
+
+            render();
+        }
+
+        function prevQuestion() {
+            if (state.index > 0) {
+                state.index--;
+
+                render();
+            }
+        }
+
+        function nextQuestion() {
+            if (state.answers[state.index] === null) {
+                document.getElementById('notice').textContent =
+                    'Select an answer before continuing.';
+
+                return;
+            }
+
+            if (!state.revealed[state.index]) {
+                state.revealed[state.index] = true;
+
+                render();
+
+                return;
+            }
+
+            if (state.index < 9) {
+                state.index++;
+
+                render();
+
+                return;
+            }
+
+            if (state.answers.some(a => a === null)) {
+                document.getElementById('notice').textContent =
+                    'Answer all 10 questions before submitting.';
+
+                return;
+            }
+
+            state.submitted = true;
+            state.page = 'result';
+
+            render();
+        }
+
+        function result() {
+            let score = state.questions.reduce(
+                (n, q, i) =>
+                    n +
+                    (state.answers[i] === q.correctAnswer
+                        ? 1
+                        : 0),
+                0
+            );
+
+            let pct = score * 10;
+
+            let msg =
+                score >= 8
+                    ? 'Excellent work — your preparation is paying off.'
+                    : score >= 5
+                    ? 'Good progress — review the explanations to strengthen your understanding.'
+                    : 'Every attempt builds skill. Review the answers and try another round.';
+
+            app.innerHTML = `
+                <section class="result-hero">
+
+                    <div>
+                        <div class="eyebrow">
+                            Interview complete
+                        </div>
+
+                        <h1>
+                            Congratulations, ${esc(state.name)}!
+                        </h1>
+
+                        <p>
+                            ${msg}
+                        </p>
+
+                        <p style="margin-top:13px">
+                            Your Interview Result
+                        </p>
+                    </div>
+
+                    <div class="score">
+                        <strong>
+                            ${score}
+                            <small style="font-size:18px">
+                                / 10
+                            </small>
+                        </strong>
+
+                        <small>
+                            ${pct}% score
+                        </small>
+                    </div>
+
+                </section>
+
+                <section class="stats">
+
+                    <div class="stat">
+                        <small>
+                            Total Questions
+                        </small>
+
+                        <strong>
+                            10
+                        </strong>
+                    </div>
+
+                    <div class="stat">
+                        <small>
+                            Correct Answers
+                        </small>
+
+                        <strong>
+                            ${score}
+                        </strong>
+                    </div>
+
+                    <div class="stat">
+                        <small>
+                            Incorrect Answers
+                        </small>
+
+                        <strong>
+                            ${10 - score}
+                        </strong>
+                    </div>
+
+                    <div class="stat">
+                        <small>
+                            Subject · Difficulty
+                        </small>
+
+                        <strong>
+                            ${esc(state.subject)} ·
+                            ${state.difficulty}
+                        </strong>
+                    </div>
+
+                </section>
+
+                <div class="section-head review">
+
+                    <div>
+                        <h2>
+                            Question Review
+                        </h2>
+
+                        <p>
+                            Check each answer and revisit the key idea.
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary"
+                        onclick="goHome()"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+                ${state.questions
+                    .map(
+                        (q, i) => `
+                            <article class="review-item">
+
+                                <div class="review-head">
+
+                                    <span>
+                                        ${i + 1}.
+                                        ${esc(q.question)}
+                                    </span>
+
+                                    <span
+                                        class="badge ${
+                                            state.answers[i] ===
+                                            q.correctAnswer
+                                                ? ''
+                                                : 'bad'
+                                        }"
+                                    >
+                                        ${
+                                            state.answers[i] ===
+                                            q.correctAnswer
+                                                ? '✓ Correct'
+                                                : '✕ Incorrect'
+                                        }
+                                    </span>
+
+                                </div>
+
+                                <div class="review-body">
+
+                                    <div>
+                                        <b>
+                                            Your answer:
+                                        </b>
+
+                                        ${
+                                            state.answers[i] === null
+                                                ? 'Not answered'
+                                                : `
+                                                    ${'ABCD'[
+                                                        state.answers[i]
+                                                    ]}.
+                                                    ${esc(
+                                                        q.options[
+                                                            state.answers[i]
+                                                        ]
+                                                    )}
+                                                `
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <b>
+                                            Correct answer:
+                                        </b>
+
+                                        ${'ABCD'[q.correctAnswer]}.
+                                        ${esc(
+                                            q.options[q.correctAnswer]
+                                        )}
+                                    </div>
+
+                                    <div style="margin-top:8px">
+                                        ${esc(q.explanation)}
+                                    </div>
+
+                                </div>
+
+                            </article>
+                        `
+                    )
+                    .join('')}
+            `;
+        }
+
+        function makers() {
+            app.innerHTML = `
+                <div class="eyebrow">
+                    The people behind the practice
+                </div>
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>
+                            Meet the Makers
+                        </h2>
+
+                        <p>
+                            SampReps was created by students who wanted
+                            to make technical interview preparation
+                            simpler and more engaging.
+                        </p>
+                    </div>
+
+                </div>
+
+                <section class="makers">
+
+                    ${[
+                        [
+                            'Sayed Afnan',
+                            'Developer and creator of SampReps, focused on building the interactive interview preparation experience.'
+                        ],
+                        [
+                            'Sharvari Adane',
+                            'Contributor and creator of SampReps, helping shape the learning and user experience of the platform.'
+                        ],
+                        [
+                            'Madhvi Latne',
+                            'Contributor and creator of SampReps, contributing to the development and overall presentation of the platform.'
+                        ]
+                    ]
+                        .map(
+                            ([n, d]) => `
+                                <article class="maker">
+
+                                  
+
+                                    <h3>
+                                        ${n}
+                                    </h3>
+
+                                    <p>
+                                        ${d}
+                                    </p>
+
+                                </article>
+                            `
+                        )
+                        .join('')}
+
+                </section>
+
+                <button
+                    class="secondary"
+                    onclick="goHome()"
+                >
+                    ← Back to Practice
+                </button>
+            `;
+        }
+
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+
+            return a;
+        }
+
+        function esc(s) {
+            return String(s).replace(
+                /[&<>"']/g,
+                c =>
+                    ({
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#39;'
+                    })[c]
+            );
+        }
+
+        render();
+    </script>
+
+</body>
+</html>
